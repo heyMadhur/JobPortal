@@ -3,6 +3,7 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import connectDB from "./utils/db.js";
+import userRoute from "./routes/user.routes.js"
 
 dotenv.config({})       //  Loads environment variables from a .env file in the project’s root directory.
 
@@ -28,6 +29,10 @@ app.use(cors(corOptions));
 
 
 const PORT= process.env.PORT || 3000;
+
+// API's
+app.use("/api/v1/user", userRoute);
+
 app.listen(PORT, ()=>{
     connectDB();
     console.log(`The server is running at port: ${PORT}`);
