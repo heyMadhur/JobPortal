@@ -52,7 +52,9 @@ export const login = async (req, res) => {
                 success: false
             });
         }
-        const passwordMatch = brypt.compare(password, user.password);
+        const passwordMatch = await brypt.compare(password, user.password);
+        console.log(passwordMatch);
+        
         if (!passwordMatch) {
             return res.status(400).json({
                 message: "Wrong Email or Password",
