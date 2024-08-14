@@ -31,15 +31,15 @@ export const registerCompany = async (req, res) => {
 export const getCompany = async (req, res) => {
     try {
 
-        const userId = req.id;
-        let company = await Company.find({ id: userId });
-        if (!company) {
+        const userId = req.id;      // Logged In User
+        let companies = await Company.find({ userId });
+        if (!companies) {
             return res.status(404).json({ message: "Companies not found", success: false });
         }
 
         return res.status(200).json({
             message: "Companies found successfully",
-            company,
+            companies,
             success: true
         })
 
