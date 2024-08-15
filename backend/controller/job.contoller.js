@@ -1,10 +1,17 @@
 import { Job } from "../models/job.model.js"
+import { User } from "../models/user.model.js"
 
 // For Admin
 export const postJob = async (req, res) => {
     try {
         const { title, description, requirements, salary, location, jobType, experience, position, companyId } = req.body;
         const userId = req.id;
+
+        // Check if user is an Admin
+        const user= await User.findById(userId);
+        if(user.role!=="recruiter"){
+            return res.status(401).json({ message: "You are not authorized to post a job", success: false });
+        }
 
         if (!title || !description || !requirements || !salary || !location || !jobType || !experience || !position || !companyId) {
             return res.status(400).json({ message: "Please fill in all fields.", success: false });
