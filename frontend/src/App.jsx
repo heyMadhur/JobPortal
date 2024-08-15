@@ -1,12 +1,38 @@
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import './App.css'
 import Navbar from './components/shared/Navbar'
+import Login from './components/auth/Login'
+import Signup from './components/auth/Signup'
+import Home from './components/Home'
+
+const appRouter= createBrowserRouter([
+  {
+    path: '/',
+    element: <Home />,
+  },
+  {
+    path: '/login',
+    element: <Login />,
+  },
+  {
+    path: '/signup',
+    element: <Signup />,
+  },
+  // {
+  //   path: '/login',
+  //   element: <Navbar />,
+  // },
+  // {
+  //   path: '/login',
+  //   element: <Navbar />,
+  // },
+])
 
 function App() {
 
   return (
     <>
-      {/* <h1 className='text-red-500'>Starting Template</h1> */}
-      <Navbar />
+      <RouterProvider router={appRouter}></RouterProvider>
     </>
   )
 }
