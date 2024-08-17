@@ -1,6 +1,6 @@
 import React from 'react'
 import Navbar from './shared/Navbar'
-import SingleJob from './shared/SingleJob';
+import JobCard from './shared/JobCard';
 import { RadioGroup, RadioGroupItem } from './ui/radio-group';
 import { Label } from './ui/label';
 
@@ -21,7 +21,7 @@ const Jobs = () => {
               <span>Job not Found</span> :
               <div className='flex-1 h-[88vh] overflow-y-auto pb-5'>
                 <div className='grid grid-cols-3 gap-4'>
-                  {jobsArray.map((job, index) => <div><SingleJob /></div> )}
+                  {jobsArray.map((job, index) => <div><JobCard /></div> )}
                 </div>
               </div>
           }

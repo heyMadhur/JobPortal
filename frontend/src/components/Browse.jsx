@@ -1,6 +1,6 @@
 import React from 'react'
 import Navbar from './shared/Navbar'
-import SingleJob from './shared/SingleJob';
+import JobCard from './shared/JobCard';
 
 
 const jobs = [1, 2, 3];
@@ -15,7 +15,7 @@ function Browse() {
                     {
                         jobs.map((job, index) => {
                             return (
-                                <SingleJob />
+                                <JobCard />
                             )
                         })
                     }
