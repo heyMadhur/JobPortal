@@ -1,6 +1,8 @@
 import { User } from "../models/user.model.js"
 import brypt from "bcryptjs"
 import jwt from "jsonwebtoken"
+import getDataUri from "../utils/datauri.js";
+import cloudinary from "../utils/cloudinary.js";
 
 
 export const register = async (req, res) => {
@@ -112,6 +114,11 @@ export const updateProfile = async (req, res) => {
         const file = req.file;
 
         // Cloudinary File Setup Process
+        const fileUri= getDataUri(file);
+        // console.log("FILEURI= ",fileUri);
+        
+        const uploadResult = await cloudinary.uploader.upload(fileUri.content);
+        console.log("UPLOADRESULT= ",uploadResult);
 
         // Skills will come in String format. Will have to convert it to array format
         let skillsArray;
@@ -138,6 +145,10 @@ export const updateProfile = async (req, res) => {
         if(skills) user.profile.skills = skillsArray 
 
         // Resume COmes here later
+        if(uploadResult){
+            user.profile.resume = uploadResult.secure_url; 
+            user.profile.resumeOriginalName= file.originalname;
+        }
 
         await user.save();
 
