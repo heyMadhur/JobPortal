@@ -1,10 +1,12 @@
 import React from 'react'
 import { Badge } from './ui/badge'
 import { Button } from './ui/button'
+import Navbar from './shared/Navbar';
 
 function JobDescription() {
     const isApplied = true;
-    return (
+    return (<>
+        <Navbar />
         <div className='max-w-7xl mx-auto my-10'>
             <div className='flex items-center justify-between'>
 
@@ -32,6 +34,7 @@ function JobDescription() {
                 <h1 className='font-bold my-1'>Posted Date: <span className='pl-4 font-normal text-gray-800'>17-08-2024</span></h1>
             </div>
         </div>
+    </>
     )
 }
 

@@ -21,10 +21,7 @@ function Login() {
 
   const dispatch= useDispatch();
   const {loading:Loading}= useSelector(store=>store.auth);
-  const navigate= useNavigate();
-
-  console.log(Loading);
-  
+  const navigate= useNavigate();  
 
 
   const changeEventHandler= (e) => {
