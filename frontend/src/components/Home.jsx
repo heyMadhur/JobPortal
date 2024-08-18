@@ -5,8 +5,11 @@ import { Badge } from './ui/badge';
 import { Search } from 'lucide-react';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from './ui/carousel';
 import Footer from './shared/Footer';
+import useGetAllJobs from '@/hooks/useGetAllJobs';
+import { useSelector } from 'react-redux';
 
 function Home() {
+  useGetAllJobs();
   return (
     <div>
       <Navbar />
@@ -63,34 +66,36 @@ const CategoryCarousel = () => {
   )
 }
 
-const LatestJobCards = () => {
+const LatestJobCards = ({job}) => {  
   return (
     <div className='p-5 rounded-md shadow-xl bg-white border border-gray-100 cursor-pointer'>
       <div>
-        <h1 className='font-medium text-lg'>Company Name</h1>
+        <h1 className='font-medium text-lg'>{job?.company?.name}</h1>
         <p className='text-sm text-gray-500'>India</p>
       </div>
       <div>
-        <h1 className='font-bold text-lg my-2'>Job Title</h1>
-        <p className='text-sm text-gray-600'>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Lorem ipsum dolor sit amet.</p>
+        <h1 className='font-bold text-lg my-2'>{job?.title}</h1>
+        <p className='text-sm text-gray-600'>{job?.description}</p>
       </div>
       <div className='flex items-center gap-2 mt-4'>
-        <Badge className='text-blue-700 font-bold' variant="ghost">12 Positions</Badge>
-        <Badge className='text-[#F83002] font-bold' variant="ghost">Part Time</Badge>
-        <Badge className='text-[#7209B7] font-bold' variant="ghost">24 LPA</Badge>
+        <Badge className='text-blue-700 font-bold' variant="ghost">{job?.position} Positions</Badge>
+        <Badge className='text-[#F83002] font-bold' variant="ghost">{job?.jobType}</Badge>
+        <Badge className='text-[#7209B7] font-bold' variant="ghost">{job?.salary} LPA</Badge>
       </div>
 
     </div>
   )
 }
-const jobs = [1, 2, 3, 4, 5, 6, 7, 8];
+
+
 const LatestJobs = () => {
+  const {allJobs} = useSelector(store=>store.job)
   return (
     <div className='max-w-7xl mx-auto my-20'>
       <h1 className='text-4xl font-bold'> <span className='text-[#6A38C2]'>Latest & Top </span>Job Openings</h1>
       <div className='grid grid-cols-3 gap-4 my-5'>
-        {
-          jobs.slice(0,6).map((item, id) => <LatestJobCards />)
+        { 
+          allJobs <= 0 ? <span> No Job Available </span> : allJobs?.slice(0,6).map((job) => <LatestJobCards key={job._id} job={job} />)
         }
 
       </div>
