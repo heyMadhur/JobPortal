@@ -10,26 +10,26 @@ import axios from 'axios'
 import { USER_API_END_POINT } from '@/utils/constant'
 import { setUser } from '@/redux/authSlice'
 
-const Navbar= () => {
+const Navbar = () => {
 
     // const user = false;
-    const {user}= useSelector(store=>store.auth);
+    const { user } = useSelector(store => store.auth);
     const dispatch = useDispatch();
-    const navigate= useNavigate();
-    
-    const logoutHandler= async()=>{        
+    const navigate = useNavigate();
+
+    const logoutHandler = async () => {
         try {
-             const res= await axios.get(`${USER_API_END_POINT}/logout`, {withCredentials: true});
-             if(res.data.success){
+            const res = await axios.get(`${USER_API_END_POINT}/logout`, { withCredentials: true });
+            if (res.data.success) {
                 dispatch(setUser(null));
                 navigate("/");
                 toast.success(res.data.message);
 
-             }
+            }
         } catch (error) {
             console.log(error);
             toast.error(error.response.data.message);
-            
+
         }
 
     }
@@ -62,7 +62,7 @@ const Navbar= () => {
                             <Popover>
                                 <PopoverTrigger asChild>
                                     <Avatar className="cursor-pointer">
-                                        <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+                                        <AvatarImage src={user?.profile?.profilePhoto} alt="Profile Pic" />
                                         <AvatarFallback>CN</AvatarFallback>
                                     </Avatar>
                                 </PopoverTrigger>
@@ -70,12 +70,12 @@ const Navbar= () => {
                                     <div>
                                         <div className='flex gap-4 space-y-2'>
                                             <Avatar className="cursor-pointer">
-                                                <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+                                                <AvatarImage src={user?.profile?.profilePhoto} alt="Profile Photo" />
                                                 <AvatarFallback>CN</AvatarFallback>
                                             </Avatar>
                                             <div>
-                                                <h4 className='font-medium'>Madhur Gupta</h4>
-                                                <p className='text-sm text-muted-foreground'>Lorem ipsum dolor sit .</p>
+                                                <h4 className='font-medium'>{user?.fullname}</h4>
+                                                <p className='text-sm text-muted-foreground'>{user?.profile?.bio}</p>
                                             </div>
                                         </div>
                                         <div className='flex flex-col my-2 text-gray-600'>
