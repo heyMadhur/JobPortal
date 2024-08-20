@@ -29,7 +29,7 @@ export const applyJob = async (req, res) => {
     })
     job.applications.push(application._id);
     await job.save();
-    res.status(201).json({ message: "Application Added Successfully", success: true });
+    res.status(201).json({ message: "Application Added Successfully", job, success: true });
 }
 
 export const getAppliedJob = async (req, res) => {

@@ -4,11 +4,13 @@ import JobCard from './shared/JobCard';
 import { RadioGroup, RadioGroupItem } from './ui/radio-group';
 import { Label } from './ui/label';
 import { useSelector } from 'react-redux';
+import useGetAllJobs from '@/hooks/useGetAllJobs';
 
-const jobsArray = [1, 2, 3, 4, 5, 6, 7, 8];
 
 const Jobs = () => {
+  useGetAllJobs();
   const {allJobs}= useSelector(store => store.job);  
+
 
   return (
     <div>
@@ -58,12 +60,12 @@ const FilterCard = () => {
       <RadioGroup>
         {
           filterData.map((data, index)=> (
-            <div>
+            <div key={index}>
               <h1 className='font-bold text-lg'>{data.filterType}</h1>
               {
-                data.array.map((item, index) => {
+                data.array.map((item, idx) => {
                   return (
-                    <div className='flex items-center space-x-2 my-2'>
+                    <div key={idx} className='flex items-center space-x-2 my-2'>
                       <RadioGroupItem value={item} />
                       <Label>{item}</Label>
                     </div>
