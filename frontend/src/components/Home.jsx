@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Navbar from './shared/Navbar'
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
@@ -7,9 +7,19 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import Footer from './shared/Footer';
 import useGetAllJobs from '@/hooks/useGetAllJobs';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
-function Home() {
+const Home= () => {
   useGetAllJobs();
+  const {user}= useSelector(store=> store.auth)
+  
+  useEffect(()=>{
+    if(user?.role === 'recruiter'){
+      const navigate= useNavigate();
+      navigate('/admin/companies')
+    }
+  },[])
+
   return (
     <div>
       <Navbar />
@@ -86,7 +96,6 @@ const LatestJobCards = ({job}) => {
     </div>
   )
 }
-
 
 const LatestJobs = () => {
   const {allJobs} = useSelector(store=>store.job)
