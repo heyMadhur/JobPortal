@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Navbar from '../shared/Navbar'
 import { Input } from '../ui/input'
 import { Button } from '../ui/button'
@@ -7,12 +7,19 @@ import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, Tabl
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover'
 import { Edit2, MoreHorizontal } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import useGetAllCompanies from '@/hooks/useGetAllCompanies'
+import { setSearchCompanyByText } from '@/redux/companySlice'
 
 const Companies = () => {
   useGetAllCompanies()
   const navigate = useNavigate();
+  const [input, setInput] = useState("")
+  const dispatch= useDispatch();
+  useEffect(()=>{
+    dispatch(setSearchCompanyByText(input))
+
+  }, [input])
   return (
     <div>
       <Navbar />
@@ -21,6 +28,7 @@ const Companies = () => {
           <Input
             className="w-fit"
             placeholder="Filter by name"
+            onChange= {(e)=>setInput(e.target.value)}
           />
           <Button onClick={() => navigate('/admin/companies/create')}>New Company</Button>
         </div>
@@ -32,7 +40,24 @@ const Companies = () => {
 }
 
 const CompaniesTable = () => {
-  const { allCompanies } = useSelector(store => store.company);
+  const { allCompanies, searchCompanyByText } = useSelector(store => store.company);
+  const [filterCompany, setFilterCompany] = useState(allCompanies)
+  const navigate = useNavigate();
+
+
+  useEffect(() => {
+    const filteredCompany= allCompanies.length>0 && allCompanies.filter((company)=>{
+      if(!searchCompanyByText){
+        return true;
+      }
+      return company.name.toLowerCase().includes(searchCompanyByText.toLowerCase())
+
+    })
+    console.log(filteredCompany);
+    
+    setFilterCompany(filteredCompany);
+  }, [allCompanies, searchCompanyByText]);
+
   return (
     <>
       <Table>
@@ -47,13 +72,13 @@ const CompaniesTable = () => {
         </TableHeader>
         <TableBody>
           {
-            allCompanies.length <= 0 ? <span>You haven't Registered any company yet...</span>
+            filterCompany.length <= 0 ? <span>You haven't Registered any company yet...</span>
               :
-              allCompanies?.map((company) => {
+              filterCompany?.map((company) => {
                 return (
                   <TableRow key={company._id}>
                     <TableCell>
-                      <Avatar className="h-24 w-24">
+                      <Avatar>
                         <AvatarImage src={company?.logo} alt="profile" />
                       </Avatar>
                     </TableCell>
@@ -63,7 +88,7 @@ const CompaniesTable = () => {
                       <Popover>
                         <PopoverTrigger><MoreHorizontal /></PopoverTrigger>
                         <PopoverContent className="w-32">
-                          <div className='flex items-center gap-2 w-fit cursor-pointer'>
+                          <div onClick={()=>navigate(`/admin/companies/${company._id}`)} className='flex items-center gap-2 w-fit cursor-pointer'>
                             <Edit2 className='w-4' />
                             <span>Edit</span>
                           </div>

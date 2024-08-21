@@ -10,11 +10,15 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'sonner'
 import { setLoading } from '@/redux/authSlice'
 import axios from 'axios'
+import useGetCompanyById from '@/hooks/useGetCompanyById'
 
 function CompanySetup() {
+    const params = useParams();
+
+    useGetCompanyById(params.id)
+
     const { loading } = useSelector(store => store.auth)
     const dispatch = useDispatch();
-    const params = useParams();
     const navigate = useNavigate();
     const {singleCompany}= useSelector(store => store.company)
 
