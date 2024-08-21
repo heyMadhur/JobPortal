@@ -5,16 +5,16 @@ import { Button } from '../ui/button'
 import { Badge } from '../ui/badge'
 import { useNavigate } from 'react-router-dom'
 
-const SingleJob = ({job}) => {
-    const navigate= useNavigate();
+const SingleJob = ({ job }) => {
+    const navigate = useNavigate();
 
-    
-    const daysAgo= (mongoDbTime)=>{
-        const createdAt= new Date(mongoDbTime);
-        const currentTime= new Date();
-        const timeDiff= currentTime-createdAt;
 
-        return Math.floor(timeDiff/ (1000*24*60*60))
+    const daysAgo = (mongoDbTime) => {
+        const createdAt = new Date(mongoDbTime);
+        const currentTime = new Date();
+        const timeDiff = currentTime - createdAt;
+
+        return Math.floor(timeDiff / (1000 * 24 * 60 * 60))
 
     }
 
@@ -49,7 +49,7 @@ const SingleJob = ({job}) => {
             </div>
 
             <div className='flex items-center gap-4 mt-4'>
-                <Button onClick={()=>{navigate(`/jobs/description/${job?._id}`)}} variant="outline">Details</Button>
+                <Button onClick={() => { navigate(`/jobs/description/${job?._id}`) }} variant="outline">Details</Button>
                 <Button className="bg-[#7209B7]">Save for Later</Button>
             </div>
 

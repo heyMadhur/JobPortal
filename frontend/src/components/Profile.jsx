@@ -17,7 +17,7 @@ import useGetAppliedJobs from '@/hooks/useGetAppliedJobs'
 
 const haveResume = true;
 
-const Profile= () => {
+const Profile = () => {
     useGetAppliedJobs();
     const [open, setOpen] = useState(false)
     const { user } = useSelector(store => store.auth);
@@ -79,7 +79,7 @@ const Profile= () => {
 }
 
 const AppliedJobTable = () => {
-    const {allAppliedJobs}= useSelector(store=> store.job)
+    const { allAppliedJobs } = useSelector(store => store.job)
     return (
         <div>
             <Table>
@@ -94,20 +94,20 @@ const AppliedJobTable = () => {
                 </TableHeader>
                 <TableBody>
                     {
-                        allAppliedJobs.length<=0 ? <span>You haven't applied for any job yet</span> 
-                        : 
-                        allAppliedJobs.map((application) => {
-                            return (
-                                <TableRow key={application?._id}>
-                                    <TableCell>{application?.createdAt.split("T")[0]}</TableCell>
-                                    <TableCell>{application?.job?.title}</TableCell>
-                                    <TableCell>{application?.job?.company?.name}</TableCell>
-                                    <TableCell className="text-right">
-                                        <Badge className={application?.status === "rejected"? 'bg-red-400' : application?.status === "pending" ? 'bg-gray-400' : "bg-green-400"}>{application?.status.toUpperCase()}</Badge>
-                                    </TableCell>
-                                </TableRow>
-                            )
-                        })
+                        allAppliedJobs.length <= 0 ? <span>You haven't applied for any job yet</span>
+                            :
+                            allAppliedJobs.map((application) => {
+                                return (
+                                    <TableRow key={application?._id}>
+                                        <TableCell>{application?.createdAt.split("T")[0]}</TableCell>
+                                        <TableCell>{application?.job?.title}</TableCell>
+                                        <TableCell>{application?.job?.company?.name}</TableCell>
+                                        <TableCell className="text-right">
+                                            <Badge className={application?.status === "rejected" ? 'bg-red-400' : application?.status === "pending" ? 'bg-gray-400' : "bg-green-400"}>{application?.status.toUpperCase()}</Badge>
+                                        </TableCell>
+                                    </TableRow>
+                                )
+                            })
                     }
                 </TableBody>
             </Table>
@@ -119,7 +119,7 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
 
     const { user, loading } = useSelector(store => store.auth);
 
-    const dispatch= useDispatch();
+    const dispatch = useDispatch();
 
     const [input, setInput] = useState({
         fullname: user?.fullname,
@@ -139,7 +139,7 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
         setInput({ ...input, file });
     }
 
-    const submitHandler = async(event) => {
+    const submitHandler = async (event) => {
         event.preventDefault();
         const formData = new FormData();
         formData.append('fullname', input.fullname);
@@ -159,8 +159,6 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
             })
 
             if (res.data.success) {
-                console.log("Updated User= ", res.data.user);
-                
                 dispatch(setUser(res.data.user));   // Set Updated Details
                 toast.success(res.data.message);
             }

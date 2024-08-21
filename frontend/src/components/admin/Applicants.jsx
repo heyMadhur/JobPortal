@@ -50,22 +50,20 @@ const ApplicantsTable = () => {
 
     const { allApplicants } = useSelector(store => store.application);
     const shortListingStatus = ["Accepted", "Rejected"];
-    const statusHandler= async (id, status) => {
-        status= status.toLowerCase();
-        status= {status}
-        console.log(id," " ,status);
-        
-        try {
-            const res= await axios.put(`${APPLICATION_API_END_POINT}/status/update/${id}/`,status, {withCredentials: true});
+    const statusHandler = async (id, status) => {
+        status = status.toLowerCase();
+        status = { status }
 
-            console.log(res);
-            if(res.data.success){
+        try {
+            const res = await axios.put(`${APPLICATION_API_END_POINT}/status/update/${id}/`, status, { withCredentials: true });
+
+            if (res.data.success) {
                 toast.success(res.data.message);
-                
-            }    
+
+            }
         } catch (error) {
             toast.error(error.response.data.message);
-            
+
         }
     }
     return (
@@ -94,12 +92,12 @@ const ApplicantsTable = () => {
                                     <TableCell>{item?.applicant?.phoneNumber}</TableCell>
                                     <TableCell>
                                         {
-                                            item?.applicant?.profile?.resume ? 
-                                            <a className="text-blue-600 cursor-pointer" href={item?.applicant?.profile?.resume} target='_blank'>{item?.applicant?.profile?.resumeOriginalName}</a>
-                                            :
-                                            <span>NA</span>
+                                            item?.applicant?.profile?.resume ?
+                                                <a className="text-blue-600 cursor-pointer" href={item?.applicant?.profile?.resume} target='_blank'>{item?.applicant?.profile?.resumeOriginalName}</a>
+                                                :
+                                                <span>NA</span>
                                         }
-                                        
+
                                     </TableCell>
                                     <TableCell>{item.createdAt.split("T")[0]}</TableCell>
                                     <TableCell className="text-right cursor-pointer">
@@ -111,7 +109,7 @@ const ApplicantsTable = () => {
                                                 {
                                                     shortListingStatus.map((status, index) => {
                                                         return (
-                                                            <div onClick={()=>statusHandler(item?._id, status)} key={index} className='flex w-fit items-center my-2 cursor-pointer'>
+                                                            <div onClick={() => statusHandler(item?._id, status)} key={index} className='flex w-fit items-center my-2 cursor-pointer'>
                                                                 <span>{status}</span>
                                                             </div>
                                                         )

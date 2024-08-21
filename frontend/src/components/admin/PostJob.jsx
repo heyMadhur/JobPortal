@@ -163,7 +163,6 @@ function PostJob() {
                                                 allCompanies.map((company) => {
                                                     return (
                                                         <SelectItem key={company._id} value={company?.name?.toLowerCase()}>{company.name}</SelectItem>
-
                                                     )
                                                 })
                                             }

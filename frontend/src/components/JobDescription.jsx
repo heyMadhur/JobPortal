@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { APPLICATION_API_END_POINT, JOB_API_END_POINT } from '@/utils/constant';
 import { toast } from 'sonner';
 
-function JobDescription() {    
+function JobDescription() {
     const { singleJob } = useSelector(store => store.job)
     const { user } = useSelector(store => store.auth)
     const isIntiallyApplied = singleJob?.applications?.some(application => application.applicant === user?._id) || false;
@@ -24,31 +24,29 @@ function JobDescription() {
             const res = await axios.get(`${APPLICATION_API_END_POINT}/apply/${jobId}`, { withCredentials: true })
             if (res.data.success) {
                 setIsApplied(true) // Update the local State
-                console.log("Job= ", res.data.job);
-                const updatedSingleJob= res.data.job;
+                const updatedSingleJob = res.data.job;
                 dispatch(setSingleJob(updatedSingleJob))
-                
+
                 toast.success(res.data.message)
             }
         } catch (error) {
             console.log(error);
-            
             toast.error(error.response.data.message)
         }
     }
-    
-    
-    
+
+
+
     useEffect(() => {
-        
+
         const fetchSingleJob = async () => {
             toast.success("Fetching single job");
-            
+
             try {
                 const res = await axios.get(`${JOB_API_END_POINT}/get/${jobId}`, { withCredentials: true });
-                
+
                 if (res.data.success) {
-                    
+
                     dispatch(setSingleJob(res.data.job));
                     setIsApplied(res.data.job.applications.some(application => application.applicant === user?._id) || false)
                 }

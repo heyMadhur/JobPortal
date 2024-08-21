@@ -10,15 +10,15 @@ const jobs = [1, 2, 3];
 
 function Browse() {
     useGetAllJobs();
-    const {allJobs}= useSelector(store=>store.job)
-    const dispatch= useDispatch();
-    useEffect(()=>{
+    const { allJobs } = useSelector(store => store.job)
+    const dispatch = useDispatch();
+    useEffect(() => {
 
         // Will change while leaving the page
-        return ()=>{
+        return () => {
             dispatch(setSearchedQuery(""))
         }
-    },[])
+    }, [])
 
     return (
         <div>

@@ -4,16 +4,16 @@ import axios from 'axios';
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 
-const useGetAllJobs= async() => {
+const useGetAllJobs = async () => {
     const dispatch = useDispatch();
-    const {searchedQuery}= useSelector(store=>store.job)
-    
-    useEffect(()=>{
-        const fetchAllJobs= async ()=>{
+    const { searchedQuery } = useSelector(store => store.job)
+
+    useEffect(() => {
+        const fetchAllJobs = async () => {
             try {
-                const res= await axios.get(`${JOB_API_END_POINT}/get?keyword=${searchedQuery}`,{withCredentials: true});
-                if(res.data.success){
-                    
+                const res = await axios.get(`${JOB_API_END_POINT}/get?keyword=${searchedQuery}`, { withCredentials: true });
+                if (res.data.success) {
+
                     dispatch(setAllJobs(res.data.jobs));
                 }
             } catch (error) {
@@ -22,6 +22,6 @@ const useGetAllJobs= async() => {
         }
         fetchAllJobs();
     }, [])
- }
+}
 
 export default useGetAllJobs

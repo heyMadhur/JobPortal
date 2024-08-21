@@ -20,7 +20,7 @@ function CompanySetup() {
     const { loading } = useSelector(store => store.auth)
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const {singleCompany}= useSelector(store => store.company)
+    const { singleCompany } = useSelector(store => store.company)
 
     const [input, setInput] = useState({
         name: '',
@@ -66,7 +66,7 @@ function CompanySetup() {
         }
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         setInput({
             name: singleCompany.name || '',
             description: singleCompany.description || '',
@@ -82,7 +82,7 @@ function CompanySetup() {
             <div className='max-w-xl mx-auto my-10'>
                 <form onSubmit={submitHandler}>
                     <div className='flex items-center gap-5 p-8'>
-                        <Button onClick={()=> navigate("/admin/companies")} variant="outline" className="flex items-center gap-2 text-gray-500 font-semibold">
+                        <Button onClick={() => navigate("/admin/companies")} variant="outline" className="flex items-center gap-2 text-gray-500 font-semibold">
                             <ArrowLeft />
                             <span>Back</span>
                         </Button>

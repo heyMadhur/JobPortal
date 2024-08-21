@@ -15,7 +15,7 @@ import JobsAdmin from './components/admin/JobsAdmin'
 import PostJob from './components/admin/PostJob'
 import Applicants from './components/admin/Applicants'
 
-const appRouter= createBrowserRouter([
+const appRouter = createBrowserRouter([
   {
     path: '/',
     element: <Home />,

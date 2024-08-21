@@ -19,13 +19,13 @@ function Login() {
     role: "",
   })
 
-  const dispatch= useDispatch();
-  const {loading:Loading}= useSelector(store=>store.auth);
-  const navigate= useNavigate();  
+  const dispatch = useDispatch();
+  const { loading: Loading } = useSelector(store => store.auth);
+  const navigate = useNavigate();
 
 
-  const changeEventHandler= (e) => {
-    setInput({...input, [e.target.name]: e.target.value});
+  const changeEventHandler = (e) => {
+    setInput({ ...input, [e.target.name]: e.target.value });
   }
 
   const submitHandler = async (e) => {
@@ -37,7 +37,7 @@ function Login() {
         withCredentials: true
       })
 
-      if(res.data.success){
+      if (res.data.success) {
         dispatch(setUser(res.data.user));
         navigate("/")
         toast.success(res.data.message);
@@ -46,7 +46,7 @@ function Login() {
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.message);
-      
+
     } finally {
       dispatch(setLoading(false));
     }
@@ -81,7 +81,7 @@ function Login() {
           </div>
           <div className="flex items-center justify-between">
             <RadioGroup className="flex items-center gap-4 my-5">
-            <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-2">
                 <Input
                   type="radio"
                   name="role"
@@ -106,10 +106,10 @@ function Login() {
             </RadioGroup>
           </div>
           {
-            Loading ? 
-            <Button className="w-full my-4"> <Loader2 className='mr-2 h-4 w-4 animate-spin' /> Please Wait</Button>
-            :
-            <Button type="submit" className="w-full my-4">Login</Button>
+            Loading ?
+              <Button className="w-full my-4"> <Loader2 className='mr-2 h-4 w-4 animate-spin' /> Please Wait</Button>
+              :
+              <Button type="submit" className="w-full my-4">Login</Button>
           }
           <span className='text-sm'>Don't have an account? <Link to="/signup" className="text-blue-600">Signup</Link></span>
         </form>

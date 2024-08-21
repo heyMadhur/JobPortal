@@ -14,7 +14,7 @@ const companySlice = createSlice({
         setAllCompanies: (state, action) => {
             state.allCompanies = action.payload;
         },
-        setSearchCompanyByText : (state, action) => {
+        setSearchCompanyByText: (state, action) => {
             state.searchCompanyByText = action.payload;
         }
     }

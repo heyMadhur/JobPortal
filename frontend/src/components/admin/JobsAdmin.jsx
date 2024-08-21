@@ -52,14 +52,12 @@ const JobsTableAdmin = () => {
             if (!searchJobByText) {
                 return true;
             }
-            console.log("TRIGGERED");
-            
             return job?.title.toLowerCase().includes(searchJobByText.toLowerCase()) || job?.company?.name.toLowerCase().includes(searchJobByText.toLowerCase())
 
         })
         setFilterJobs(filteredJobs);
     }, [allJobsAdmin, searchJobByText]);
-    
+
     return (
         <>
             <Table>
@@ -91,7 +89,7 @@ const JobsTableAdmin = () => {
                                                         <Edit2 className='w-4' />
                                                         <span>Editsdsss</span>
                                                     </div>
-                                                    <div onClick={()=>navigate(`/admin/jobs/${job._id}/applicants`)} className='flex items-center w-fit gap-2 cursor-pointer mt-2'>
+                                                    <div onClick={() => navigate(`/admin/jobs/${job._id}/applicants`)} className='flex items-center w-fit gap-2 cursor-pointer mt-2'>
                                                         <Eye />
                                                         <span>Applicants</span>
                                                     </div>

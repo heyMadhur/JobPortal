@@ -5,7 +5,7 @@ import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux';
 
 
-const useGetAllCompanies= () => {
+const useGetAllCompanies = () => {
 
     const dispatch = useDispatch();
 

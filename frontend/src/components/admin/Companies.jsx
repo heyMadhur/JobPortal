@@ -15,8 +15,8 @@ const Companies = () => {
   useGetAllCompanies()
   const navigate = useNavigate();
   const [input, setInput] = useState("")
-  const dispatch= useDispatch();
-  useEffect(()=>{
+  const dispatch = useDispatch();
+  useEffect(() => {
     dispatch(setSearchCompanyByText(input))
 
   }, [input])
@@ -28,7 +28,7 @@ const Companies = () => {
           <Input
             className="w-fit"
             placeholder="Filter by name"
-            onChange= {(e)=>setInput(e.target.value)}
+            onChange={(e) => setInput(e.target.value)}
           />
           <Button onClick={() => navigate('/admin/companies/create')}>New Company</Button>
         </div>
@@ -46,15 +46,14 @@ const CompaniesTable = () => {
 
 
   useEffect(() => {
-    const filteredCompany= allCompanies.length>0 && allCompanies.filter((company)=>{
-      if(!searchCompanyByText){
+    const filteredCompany = allCompanies.length > 0 && allCompanies.filter((company) => {
+      if (!searchCompanyByText) {
         return true;
       }
       return company.name.toLowerCase().includes(searchCompanyByText.toLowerCase())
 
     })
-    console.log(filteredCompany);
-    
+
     setFilterCompany(filteredCompany);
   }, [allCompanies, searchCompanyByText]);
 
@@ -88,7 +87,7 @@ const CompaniesTable = () => {
                       <Popover>
                         <PopoverTrigger><MoreHorizontal /></PopoverTrigger>
                         <PopoverContent className="w-32">
-                          <div onClick={()=>navigate(`/admin/companies/${company._id}`)} className='flex items-center gap-2 w-fit cursor-pointer'>
+                          <div onClick={() => navigate(`/admin/companies/${company._id}`)} className='flex items-center gap-2 w-fit cursor-pointer'>
                             <Edit2 className='w-4' />
                             <span>Edit</span>
                           </div>

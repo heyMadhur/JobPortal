@@ -23,9 +23,9 @@ function Signup() {
     file: ""
   })
   const dispatch = useDispatch()
-  const {loading}= useSelector(store=>store.auth);
-  const navigate= useNavigate();
-  
+  const { loading } = useSelector(store => store.auth);
+  const navigate = useNavigate();
+
 
   const changeEventHandler = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
@@ -52,21 +52,21 @@ function Signup() {
         headers: { "Content-Type": "multipart/form-data" },
         withCredentials: true
       })
-      
-      if(res.data.success){
+
+      if (res.data.success) {
         navigate("/login")
         toast.success(res.data.message);
       }
-      
+
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.message);
     }
-    finally{
+    finally {
       dispatch(setLoading(false));
     }
   }
-  
+
   return (
     <div>
       <Navbar />
@@ -151,10 +151,10 @@ function Signup() {
             </div>
           </div>
           {
-            loading ? 
-            <Button className="w-full my-4"> <Loader2 className='mr-2 h-4 w-4 animate-spin' /> Please Wait</Button>
-            :
-            <Button type="submit" className="w-full my-4">Signup</Button>
+            loading ?
+              <Button className="w-full my-4"> <Loader2 className='mr-2 h-4 w-4 animate-spin' /> Please Wait</Button>
+              :
+              <Button type="submit" className="w-full my-4">Signup</Button>
           }
           <span className='text-sm'>Already have an account? <Link to="/login" className="text-blue-600">Login</Link></span>
         </form>
