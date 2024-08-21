@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Navbar from './shared/Navbar'
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
@@ -6,19 +6,20 @@ import { Search } from 'lucide-react';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from './ui/carousel';
 import Footer from './shared/Footer';
 import useGetAllJobs from '@/hooks/useGetAllJobs';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { setSearchedQuery } from '@/redux/jobSlice';
 
-const Home= () => {
+const Home = () => {
   useGetAllJobs();
-  const {user}= useSelector(store=> store.auth)
-  const navigate= useNavigate();
-  
-  useEffect(()=>{
-    if(user?.role === 'recruiter'){
+  const { user } = useSelector(store => store.auth)
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user?.role === 'recruiter') {
       navigate('/admin/companies')
     }
-  },[])
+  }, [])
 
   return (
     <div>
@@ -32,6 +33,16 @@ const Home= () => {
 }
 
 const HeroSection = () => {
+  const [query, setQuery] = useState("")
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const searchJobHandler = () => {
+    dispatch(setSearchedQuery(query));
+    navigate('/browse');
+
+  }
+
   return (
     <div className='text-center'>
       <div className='flex flex-col gap-5 my-10'>
@@ -41,9 +52,10 @@ const HeroSection = () => {
         <div className='flex w-[40%] shadow-lg border border-gray-200 pl-3 rounded-full items-center gap-4 mx-auto'>
           <input type="text"
             placeholder='Find your dream jobs'
+            onChange={(e) => dispatch(setQuery(e.target.value))}
             className='outline-none border-none w-full'
           />
-          <Button className="rounded-r-full bg-[#6A38C2]">
+          <Button onClick={searchJobHandler} className="rounded-r-full bg-[#6A38C2]">
             <Search className='h-5 w-5' />
           </Button>
         </div>
@@ -55,14 +67,22 @@ const category = [
   "Frontend Developer", "Backend Developer", "Data Science", "Graphic Designer", "FullStack Developer"
 ]
 const CategoryCarousel = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const searchJobHandler = (query) => {
+    dispatch(setSearchedQuery(query));
+    navigate('/browse');
+
+  }
   return (
     <div>
       <Carousel className="w-full max-w-xl mx-auto my-20">
         <CarouselContent>
           {
-            category.map((item, index) => (
+            category.map((cat, index) => (
               <CarouselItem className="md:basis-1/2 lg-basis-1/3">
-                <Button variant="outline" className="rounded-full">{item}</Button>
+                <Button onClick={()=>searchJobHandler(cat)} variant="outline" className="rounded-full">{cat}</Button>
               </CarouselItem>
 
             ))
@@ -76,7 +96,7 @@ const CategoryCarousel = () => {
   )
 }
 
-const LatestJobCards = ({job}) => {  
+const LatestJobCards = ({ job }) => {
   return (
     <div className='p-5 rounded-md shadow-xl bg-white border border-gray-100 cursor-pointer'>
       <div>
@@ -98,13 +118,13 @@ const LatestJobCards = ({job}) => {
 }
 
 const LatestJobs = () => {
-  const {allJobs} = useSelector(store=>store.job)
+  const { allJobs } = useSelector(store => store.job)
   return (
     <div className='max-w-7xl mx-auto my-20'>
       <h1 className='text-4xl font-bold'> <span className='text-[#6A38C2]'>Latest & Top </span>Job Openings</h1>
       <div className='grid grid-cols-3 gap-4 my-5'>
-        { 
-          allJobs <= 0 ? <span> No Job Available </span> : allJobs?.slice(0,6).map((job) => <LatestJobCards key={job._id} job={job} />)
+        {
+          allJobs <= 0 ? <span> No Job Available </span> : allJobs?.slice(0, 6).map((job) => <LatestJobCards key={job._id} job={job} />)
         }
 
       </div>
