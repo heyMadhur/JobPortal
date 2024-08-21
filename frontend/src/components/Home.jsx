@@ -82,7 +82,7 @@ const CategoryCarousel = () => {
           {
             category.map((cat, index) => (
               <CarouselItem className="md:basis-1/2 lg-basis-1/3">
-                <Button onClick={()=>searchJobHandler(cat)} variant="outline" className="rounded-full">{cat}</Button>
+                <Button onClick={() => searchJobHandler(cat)} variant="outline" className="rounded-full">{cat}</Button>
               </CarouselItem>
 
             ))
@@ -119,12 +119,13 @@ const LatestJobCards = ({ job }) => {
 
 const LatestJobs = () => {
   const { allJobs } = useSelector(store => store.job)
+  const navigate = useNavigate();
   return (
     <div className='max-w-7xl mx-auto my-20'>
       <h1 className='text-4xl font-bold'> <span className='text-[#6A38C2]'>Latest & Top </span>Job Openings</h1>
       <div className='grid grid-cols-3 gap-4 my-5'>
         {
-          allJobs <= 0 ? <span> No Job Available </span> : allJobs?.slice(0, 6).map((job) => <LatestJobCards key={job._id} job={job} />)
+          allJobs <= 0 ? <span> No Job Available </span> : allJobs?.slice(0, 6).map((job) => <div onClick={() => navigate(`/jobs/description/${job._id}`)}><LatestJobCards key={job._id} job={job} /></div>)
         }
 
       </div>
