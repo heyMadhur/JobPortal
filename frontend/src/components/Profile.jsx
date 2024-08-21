@@ -13,10 +13,12 @@ import axios from 'axios'
 import { USER_API_END_POINT } from '@/utils/constant'
 import { setLoading, setUser } from '@/redux/authSlice'
 import { toast } from 'sonner'
+import useGetAppliedJobs from '@/hooks/useGetAppliedJobs'
 
 const haveResume = true;
 
-function Profile() {
+const Profile= () => {
+    useGetAppliedJobs();
     const [open, setOpen] = useState(false)
     const { user } = useSelector(store => store.auth);
 
@@ -77,6 +79,7 @@ function Profile() {
 }
 
 const AppliedJobTable = () => {
+    const {allAppliedJobs}= useSelector(store=> store.job)
     return (
         <div>
             <Table>
@@ -91,13 +94,17 @@ const AppliedJobTable = () => {
                 </TableHeader>
                 <TableBody>
                     {
-                        [1, 2, 3, 4].map((item, index) => {
+                        allAppliedJobs.length<=0 ? <span>You haven't applied for any job yet</span> 
+                        : 
+                        allAppliedJobs.map((application) => {
                             return (
-                                <TableRow key={index}>
-                                    <TableCell>17-08-2024</TableCell>
-                                    <TableCell>Full Stack Developer</TableCell>
-                                    <TableCell>Google</TableCell>
-                                    <TableCell className="text-right"><Badge>Selected</Badge></TableCell>
+                                <TableRow key={application?._id}>
+                                    <TableCell>{application?.createdAt.split("T")[0]}</TableCell>
+                                    <TableCell>{application?.job?.title}</TableCell>
+                                    <TableCell>{application?.job?.company?.name}</TableCell>
+                                    <TableCell className="text-right">
+                                        <Badge className={application?.status === "rejected"? 'bg-red-400' : application?.status === "pending" ? 'bg-gray-400' : "bg-green-400"}>{application?.status.toUpperCase()}</Badge>
+                                    </TableCell>
                                 </TableRow>
                             )
                         })
