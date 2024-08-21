@@ -57,17 +57,17 @@ export const getAppliedJob = async (req, res) => {
 export const getApplicants = async (req, res) => {
     try {
         const jobId = req.params.id;
-        const applicants = await Job.findById(jobId).populate({
+        const job = await Job.findById(jobId).populate({
             path: 'applications',
             options: { sort: { createdAt: -1 } },
             populate: {
                 path: 'applicant'
             }
         });
-        if (!applicants) {
+        if (!job) {
             return res.status(404).json({ message: "No Applicants Found", success: false });
         }
-        res.status(200).json({ message: "Applicants Found", success: true, applicants });
+        res.status(200).json({ message: "Applicants Found", success: true, job });
 
     } catch (error) {
         console.log(error);
@@ -79,6 +79,7 @@ export const updateStatus = async (req, res) => {
         const { status } = req.body;
         
         const applicationId = req.params.id;
+        
 
         if (!status) {
             return res.status(400).json({ message: "Status is required", success: false });

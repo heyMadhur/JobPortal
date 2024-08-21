@@ -4,7 +4,7 @@ import { Input } from '../ui/input'
 import { Button } from '../ui/button'
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '../ui/table'
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover'
-import { Edit2, MoreHorizontal } from 'lucide-react'
+import { Edit2, Eye, MoreHorizontal } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import useGetAllJobsAdmin from '@/hooks/useGetAllJobsAdmin'
@@ -29,7 +29,7 @@ const JobsAdmin = () => {
                 <div className='flex items-center justify-between my-5'>
                     <Input
                         className="w-fit"
-                        placeholder="Filter by name"
+                        placeholder="Filter by name, role"
                         onChange={(e) => setInput(e.target.value)}
                     />
                     <Button onClick={() => navigate('/admin/jobs/create')}>Post New Job</Button>
@@ -59,7 +59,7 @@ const JobsTableAdmin = () => {
         })
         setFilterJobs(filteredJobs);
     }, [allJobsAdmin, searchJobByText]);
-
+    
     return (
         <>
             <Table>
@@ -89,7 +89,11 @@ const JobsTableAdmin = () => {
                                                 <PopoverContent className="w-32">
                                                     <div onClick={() => navigate(`/admin/companies/${job._id}`)} className='flex items-center gap-2 w-fit cursor-pointer'>
                                                         <Edit2 className='w-4' />
-                                                        <span>Edit</span>
+                                                        <span>Editsdsss</span>
+                                                    </div>
+                                                    <div onClick={()=>navigate(`/admin/jobs/${job._id}/applicants`)} className='flex items-center w-fit gap-2 cursor-pointer mt-2'>
+                                                        <Eye />
+                                                        <span>Applicants</span>
                                                     </div>
                                                 </PopoverContent>
                                             </Popover>
