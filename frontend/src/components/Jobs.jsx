@@ -6,6 +6,7 @@ import { Label } from './ui/label';
 import { useDispatch, useSelector } from 'react-redux';
 import useGetAllJobs from '@/hooks/useGetAllJobs';
 import { setSearchedQuery } from '@/redux/jobSlice';
+import { motion } from "framer-motion"
 
 
 const Jobs = () => {
@@ -39,7 +40,16 @@ const Jobs = () => {
               <span>Job not Found</span> :
               <div className='flex-1 h-[88vh] overflow-y-auto pb-5'>
                 <div className='grid grid-cols-3 gap-4'>
-                  {filterJobs.map((job) => <div key={job?._id}><JobCard job={job} /></div>)}
+                  {
+                    filterJobs.map((job) =>
+                      <motion.div
+                      initial={{opacity:0, x:100}}
+                      animate={{opacity:1, x:0}}
+                      exit={{opacity:0, x:-100}}
+                      transition={{duration: 0.3}}
+                      key={job?._id}>
+                        <JobCard job={job} />
+                      </motion.div>)}
                 </div>
               </div>
           }
