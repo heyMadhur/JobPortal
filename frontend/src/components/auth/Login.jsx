@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Navbar from '../shared/Navbar'
 import { Label } from '../ui/label'
 import { RadioGroup } from '../ui/radio-group'
@@ -20,7 +20,7 @@ function Login() {
   })
 
   const dispatch = useDispatch();
-  const { loading: Loading } = useSelector(store => store.auth);
+  const { loading: Loading, user } = useSelector(store => store.auth);
   const navigate = useNavigate();
 
 
@@ -51,6 +51,13 @@ function Login() {
       dispatch(setLoading(false));
     }
   }
+
+  useEffect(()=>{
+    if(user){
+      toast.warning("Already Logged in");
+      navigate("/");
+    }
+  }, [])
 
   return (
     <div>

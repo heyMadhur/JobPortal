@@ -23,7 +23,7 @@ function Signup() {
     file: ""
   })
   const dispatch = useDispatch()
-  const { loading } = useSelector(store => store.auth);
+  const { loading, user } = useSelector(store => store.auth);
   const navigate = useNavigate();
 
 
@@ -66,6 +66,13 @@ function Signup() {
       dispatch(setLoading(false));
     }
   }
+
+  useEffect(()=>{
+    if(user){
+      toast.warning("Already Logged in");
+      navigate("/");
+    }
+  }, [])
 
   return (
     <div>
