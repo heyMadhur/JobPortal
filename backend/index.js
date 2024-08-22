@@ -10,9 +10,9 @@ import applicationRoute from "./routes/application.route.js"
 
 dotenv.config({})       //  Loads environment variables from a .env file in the project’s root directory.
 
-const app= express();
+const app = express();
 
-app.get("/", (req, res)=>{
+app.get("/", (req, res) => {
     return res.status(200).json({
         message: "Welcome to the home page",
         developer: "Madhur Gupta",
@@ -22,7 +22,7 @@ app.get("/", (req, res)=>{
 
 // Adding Middlewares
 app.use(express.json());
-app.use(express.urlencoded({extended:true}));
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 const corOptions = {
     origin: 'https://job-portal-frontend-mocha.vercel.app',
@@ -32,7 +32,7 @@ app.use(cors(corOptions));
 
 
 
-const PORT= process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000;
 
 // API's
 app.use("/api/v1/user", userRoute);
@@ -40,12 +40,34 @@ app.use("/api/v1/company", companyRoute);
 app.use("/api/v1/job", jobRoute);
 app.use("/api/v1/application", applicationRoute);
 
-app.listen(PORT, ()=>{
-    connectDB();
-    console.log(`The server is running at port: ${PORT}`);
-    
-})
+app.use((req, res, next) => {
+    res.status(404).json({
+        message: "API endpoint not found",
+        success: false
+    });
+});
 
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).json({
+        message: "Something went wrong on the server",
+        success: false
+    });
+});
+
+const startServer = async () => {
+    try {
+        await connectDB();
+        app.listen(PORT, async () => {
+            console.log(`The server is running at port: ${PORT}`);
+
+        })
+    } catch (error) {
+        console.error('Failed to connect to the database:', error);
+        process.exit(1); // Exit the process if the DB connection fails
+    }
+};
+startServer();
 
 
 // MiddleWare Information
