@@ -9,6 +9,8 @@ import useGetAllJobs from '@/hooks/useGetAllJobs';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { setSearchedQuery } from '@/redux/jobSlice';
+import { motion } from "framer-motion"
+
 
 const Home = () => {
   useGetAllJobs();
@@ -125,7 +127,12 @@ const LatestJobs = () => {
       <h1 className='text-4xl font-bold'> <span className='text-[#6A38C2]'>Latest & Top </span>Job Openings</h1>
       <div className='grid grid-cols-3 gap-4 my-5'>
         {
-          allJobs <= 0 ? <span> No Job Available </span> : allJobs?.slice(0, 6).map((job) => <div onClick={() => navigate(`/jobs/description/${job._id}`)}><LatestJobCards key={job._id} job={job} /></div>)
+          allJobs <= 0 ? <span> No Job Available </span> : allJobs?.slice(0, 6).map((job) => <motion.div
+            initial={{ opacity: 0, x: 100 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -100 }}
+            transition={{ duration: 0.3 }}
+            onClick={() => navigate(`/jobs/description/${job._id}`)}><LatestJobCards key={job._id} job={job} /></motion.div>)
         }
 
       </div>

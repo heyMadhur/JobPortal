@@ -4,6 +4,7 @@ import JobCard from './shared/JobCard';
 import { useDispatch, useSelector } from 'react-redux';
 import { setSearchedQuery } from '@/redux/jobSlice';
 import useGetAllJobs from '@/hooks/useGetAllJobs';
+import { motion } from "framer-motion"
 
 
 const jobs = [1, 2, 3];
@@ -29,7 +30,13 @@ function Browse() {
                     {
                         allJobs.map((job) => {
                             return (
-                                <JobCard key={job._id} job={job} />
+                                <motion.div
+                                    initial={{ opacity: 0, x: 100 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    exit={{ opacity: 0, x: -100 }}
+                                    transition={{ duration: 0.3 }}
+                                >
+                                    <JobCard key={job._id} job={job} /></motion.div>
                             )
                         })
                     }
