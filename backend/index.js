@@ -25,7 +25,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 const corOptions = {
-    origin: 'https://job-portal-frontend-mocha.vercel.app',
+    origin: 'http://localhost:5173',
     credentials: true
 }
 app.use(cors(corOptions));
